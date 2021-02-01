@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="http://localhost:8081/ReceiptsDatabase/rest/receipts/enterreceipt" method="post">
+		<input name="image" type="file" id="filechooser">
+		<input type="submit">Upload</button>	
+	</form>
+	<br/>
+	<img id='output'>
+</body>
+
+<script>
+function uploadFile() {
+    let formData = new FormData();  
+    var reader = new FileReader();
+    reader.onload = function(){
+      var dataURL = reader.result;
+      var output = document.getElementById('output');
+      output.src = dataURL;
+    };
+    
+    let image = reader.readAsDataURL(document.getElementById("filechooser").files[0]);
+    console.log("image", image);
+    try {
+       let r = fetch('http://localhost:8081/ReceiptsDatabase/rest/receipts/enterreceipt', {method: "POST", body: image})
+       .then(e => console.log('HTTP response code:',e.status)); 
+    } catch(e) {
+       console.log('Huston we have problem...:', e);
+    }
+}
+</script>
+</html>
